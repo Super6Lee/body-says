@@ -24,30 +24,10 @@ export default function QuizPage() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{ summary: string; advice: string } | null>(null);
 
-  if (!questions) {
-    return <div className="text-center mt-20 text-lg text-red-500">未找到该部位的题库</div>;
-  }
-
-  const handleSelect = (opt: string) => {
-    const newAnswers = [...answers, opt];
-    setAnswers(newAnswers);
-    if (current < questions.length - 1) {
-      setCurrent(current + 1);
-    } else {
-      setFinished(true);
-    }
-  };
-
-  const handlePrev = () => {
-    if (current > 0) {
-      setCurrent(current - 1);
-      setAnswers(answers.slice(0, -1));
-    }
-  };
-
   // 分析结果API调用
   useEffect(() => {
-    if (finished && !result && !loading) {
+    // 仅当问题加载完成、问卷结束、结果未生成且不在加载中时触发
+    if (questions && finished && !result && !loading) {
       setLoading(true);
       // 构造prompt
       const prompt = `请根据以下${part === 'kidney' ? '肾脏' : part === 'liver' ? '肝脏' : part === 'stomach' ? '胃部' : part === 'heart' ? '心脏' : part}健康自测问卷的用户答案，分析其健康状况，并给出医学建议。\n\n` +
@@ -92,6 +72,29 @@ export default function QuizPage() {
     }
   }, [finished, result, loading, part, questions, answers]);
 
+  const handleSelect = (opt: string) => {
+    const newAnswers = [...answers, opt];
+    setAnswers(newAnswers);
+    if (current < questions.length - 1) {
+      setCurrent(current + 1);
+    } else {
+      setFinished(true);
+    }
+  };
+
+  const handlePrev = () => {
+    // 访问 questions 之前进行检查
+    if (questions && current > 0) {
+      setCurrent(current - 1);
+      setAnswers(answers.slice(0, -1));
+    }
+  };
+
+  // 将条件渲染放在 Hooks 之后
+  if (!questions) {
+    return <div className="text-center mt-20 text-lg text-red-500">未找到该部位的题库</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-blue-50 to-pink-50 flex flex-col items-center py-8 font-sans">
       <main className="flex-1 flex flex-col items-center justify-center px-4 w-full min-h-[700px] h-[700px]">
@@ -112,7 +115,7 @@ export default function QuizPage() {
             <div className="bg-blue-50 rounded-xl p-6 shadow-sm flex flex-col gap-4 items-center relative w-full h-[460px] max-h-[460px] overflow-auto">
               <div className="font-bold mb-4 text-lg w-full text-center">{questions[current].question}</div>
               <div className="flex flex-col gap-4 w-full">
-                {questions[current].options.map((opt, i) => (
+                {questions[current]?.options.map((opt, i) => (
                   <button
                     key={i}
                     onClick={() => handleSelect(opt)}

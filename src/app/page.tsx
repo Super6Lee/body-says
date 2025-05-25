@@ -1,6 +1,7 @@
 'use client'
 import React from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
 const BODY_PARTS = [
@@ -12,7 +13,7 @@ const BODY_PARTS = [
 
 export default function Home() {
   const router = useRouter();
-  const handleSelect = (part: { key: string; label: string; image?: React.ElementType; emoji?: string }) => {
+  const handleSelect = (part: { key: string; label: string; image?: string; emoji?: string }) => {
     router.push(`/quiz/${part.key}`);
   };
 
@@ -35,7 +36,7 @@ export default function Home() {
                 >
                   {part.image ? (
                     <span className="w-10 h-10 flex items-center justify-center">
-                      <img src={part.image} alt={part.label} className="w-10 h-10" />
+                      <Image src={part.image} alt={part.label} width={40} height={40} />
                     </span>
                   ) : (
                     <span className="text-3xl">{part.emoji}</span>
