@@ -113,7 +113,7 @@ export default function QuizPage() {
           <div className="text-center text-gray-500 mb-2">{finished ? (!result ? "AI正在分析中..." : "分析结果与建议") : `第 ${current + 1} / ${questions.length} 题`}</div>
           {!finished ? (
             <div className="bg-blue-50 rounded-xl p-6 shadow-sm flex flex-col gap-4 items-center relative w-full h-[460px] max-h-[460px] overflow-auto">
-              <div className="font-bold mb-4 text-lg w-full text-center">{questions[current].question}</div>
+              <div className="font-bold mb-4 text-lg w-full text-center text-black">{questions[current].question}</div>
               <div className="flex flex-col gap-4 w-full">
                 {questions[current]?.options.map((opt, i) => (
                   <button
@@ -145,7 +145,8 @@ export default function QuizPage() {
               </div>
               <button
                 onClick={() => router.push("/")}
-                className="bg-gradient-to-tr from-blue-400 to-pink-400 text-white rounded-lg py-3 px-6 font-bold hover:scale-105 active:scale-95 transition-transform"
+                className={`bg-gradient-to-tr from-blue-400 to-pink-400 text-white rounded-lg py-3 px-6 font-bold transition-transform ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                disabled={loading}
               >
                 重新选择部位
               </button>

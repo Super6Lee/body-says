@@ -2,6 +2,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 
 const BODY_PARTS = [
@@ -14,7 +15,7 @@ const BODY_PARTS = [
 export default function Home() {
   const router = useRouter();
   const handleSelect = (part: { key: string; label: string; image?: string; emoji?: string }) => {
-    router.push(`/quiz/${part.key}`);
+    console.log(`Selected: ${part.label}`);
   };
 
   return (
@@ -29,9 +30,9 @@ export default function Home() {
             <h2 className="text-lg font-bold text-gray-800 mb-2 flex items-center gap-1">请选择你的身体部位 <span>👇</span></h2>
             <div className="grid grid-cols-2 gap-4 w-full">
               {BODY_PARTS.map((part) => (
-                <button
+                <Link
                   key={part.key}
-                  onClick={() => handleSelect(part)}
+                  href={`/quiz/${part.key}`}
                   className="flex flex-col items-center justify-center bg-gradient-to-tr from-pink-400 to-blue-400 text-white text-lg font-bold rounded-xl shadow-md py-6 hover:scale-105 active:scale-95 transition-transform focus:outline-none focus:ring-4 focus:ring-pink-200 gap-2"
                 >
                   {part.image ? (
@@ -42,7 +43,7 @@ export default function Home() {
                     <span className="text-3xl">{part.emoji}</span>
                   )}
                   <span>{part.label}</span>
-                </button>
+                </Link>
               ))}
             </div>
           </div>
