@@ -38,7 +38,7 @@ export default function QuizPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "sk-xxx"}`,
+          "Authorization": `Bearer ${process.env.NEXT_PUBLIC_OPENROUTER_API_KEY || "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"}`,
         },
         body: JSON.stringify({
           model: "gpt-4-turbo",
