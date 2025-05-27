@@ -1,6 +1,5 @@
 'use client'
 import React from "react";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,10 +12,6 @@ const BODY_PARTS = [
 ];
 
 export default function Home() {
-  const router = useRouter();
-  const handleSelect = (part: { key: string; label: string; image?: string; emoji?: string }) => {
-    console.log(`Selected: ${part.label}`);
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-orange-50 via-blue-50 to-pink-50 flex flex-col font-sans">
